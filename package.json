@@ -1,0 +1,17 @@
+{
+  "name": "github-to-es",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bluebird": "^3.5.0",
+    "github": "^9.2.0",
+    "node-env-file": "^0.1.8",
+    "promise-queue": "^2.2.3"
+  }
+}
