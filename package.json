@@ -10,7 +10,12 @@
   "license": "ISC",
   "dependencies": {
     "bluebird": "^3.5.0",
+    "commander": "^2.9.0",
+    "diskdb": "^0.1.17",
+    "elasticsearch": "^13.0.0-rc2",
     "github": "^9.2.0",
+    "lodash": "^4.17.4",
+    "moment": "^2.18.1",
     "node-env-file": "^0.1.8",
     "promise-queue": "^2.2.3"
   }
