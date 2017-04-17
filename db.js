@@ -69,7 +69,7 @@ function saveIssue(issue) {
     id: issue.id,
     body: issue,
   }).then(res => {
-    log.info('saved issue to ES', {number: issue.number});
+    log.info('Saved issue', {number: issue.number});
   }).catch(handleEsError);
 }
 
@@ -80,7 +80,7 @@ function saveComment(comment) {
     id: comment.id,
     body: comment,
   }).then(res => {
-    log.info('saved comment to ES', {created_at: comment.created_at, by: comment.user_login});
+    log.info('Saved comment', {created_at: comment.created_at, by: comment.user_login});
   }).catch(handleEsError);
 }
 
