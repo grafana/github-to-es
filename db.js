@@ -30,7 +30,7 @@ function createIndex() {
             "is_pull_request":  { "type": "boolean"  },
           }
         },
-        "comments": {
+        "comment": {
           "properties": {
             "issue":           { "type": "keyword"  },
             "user_login":      { "type": "keyword"  },

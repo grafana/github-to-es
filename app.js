@@ -80,7 +80,7 @@ function issueListHandler(res) {
         log.info('github issues getting next page');
         return github.getNextPage(res).then(issueListHandler);
       });
-    }, 5000);
+    }, 1000);
   }
 }
 
@@ -92,6 +92,7 @@ function startIssueSync() {
     repo: "grafana",
     direction: "asc",
     state: 'all',
+    per_page: 100,
   }).then(issueListHandler);
 }
 
@@ -133,6 +134,7 @@ function startCommentsSync() {
     repo: "grafana",
     sort: 'updated',
     direction: "asc",
+    per_page: 100,
   };
 
   if (program.sinceDays) {

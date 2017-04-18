@@ -10,6 +10,7 @@
   "license": "ISC",
   "dependencies": {
     "bluebird": "^3.5.0",
+    "bunyan": "^1.8.10",
     "commander": "^2.9.0",
     "diskdb": "^0.1.17",
     "elasticsearch": "^13.0.0-rc2",
