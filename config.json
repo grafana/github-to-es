@@ -1,0 +1,11 @@
+{
+  "github_token": "mytoken",
+  "repos": [
+    {
+      "owner": "grafana",
+      "repo": "grafana",
+      "issues": true,
+      "comments": true
+    }
+  ]
+}
