@@ -87,13 +87,19 @@ function issueListHandler(res) {
 function startIssueSync() {
   log.info('issue sync started');
 
-  return github.issues.getForRepo({
+  let params = {
     owner: "grafana",
     repo: "grafana",
     direction: "asc",
     state: 'all',
     per_page: 100,
-  }).then(issueListHandler);
+  };
+
+  if (program.sinceDays) {
+    params.since = moment().subtract(parseInt(program.sinceDays), 'days').utc().format();
+  }
+
+  return github.issues.getForRepo(params).then(issueListHandler);
 }
 
 function commentsListHandler(res) {
