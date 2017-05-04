@@ -40,7 +40,7 @@ github.authenticate({
 // db = db.connect('data', ['issues', 'comments', 'commits']);
 var queue = new Queue(1, 1000);
 
-function transateToPersistedIssue(gi) {
+function translateToPersistedIssue(gi) {
   var issue = {
     number: gi.number,
     title: gi.title,
@@ -63,6 +63,16 @@ function transateToPersistedIssue(gi) {
   return issue;
 }
 
+function getIntervalMs(interval) {
+  const regex = /(\d+(?:\.\d+)?)(ms|[Mwdhmsy])/;
+  var matches = interval.match(regex);
+  if (!matches) {
+    log.error('interval string invalid, expecting a number followed by one of "Mwdhmsy"');
+    throw 'interval string invalid, expecting a number followed by one of "Mwdhmsy"';
+  }
+  return moment.duration(parseInt(matches[1]), matches[2]).asMilliseconds();
+}
+
 function issueListHandler(res) {
   log.info('got issues', {
    'rate-limit-remainign': res.meta['x-ratelimit-remaining'],
@@ -70,8 +80,8 @@ function issueListHandler(res) {
   });
 
   for (let gi of res.data) {
-    var issue = transateToPersistedIssue(gi);
-    db.saveIssue(issue);
+    var issue = translateToPersistedIssue(gi);
+    queue.add(() => db.saveIssue(issue));
   }
 
   if (github.hasNextPage(res)) {
@@ -81,15 +91,23 @@ function issueListHandler(res) {
         return github.getNextPage(res).then(issueListHandler);
       });
     }, 1000);
+  } else {
+    queue.add(() => {
+      log.info('github issues end of pages');
+      if (program.interval) {
+        log.info("Sleeping for", "interval", program.interval, "interval_ms", getIntervalMs(program.interval))
+        setTimeout(startIssueSync, getIntervalMs(program.interval));
+      }
+    });
   }
 }
 
 function startIssueSync() {
-  log.info('issue sync started');
+  log.info('Issue sync started');
 
   let params = {
-    owner: "grafana",
-    repo: "grafana",
+    owner: program.owner,
+    repo: program.repo,
     direction: "asc",
     state: 'all',
     per_page: 100,
@@ -103,7 +121,7 @@ function startIssueSync() {
 }
 
 function commentsListHandler(res) {
-  log.info('got comments', {
+  log.info('Got comments', {
    'rate-limit-remaining': res.meta['x-ratelimit-remaining'],
     count: res.data.length
   });
@@ -132,12 +150,24 @@ function commentsListHandler(res) {
     }, 1000);
   }
 }
+
+function missingRequiredOptions() {
+  if (!program.owner) {
+    log.error("Missing --owner param");
+    return true;
+  }
+  if (!program.repo) {
+    log.error("Missing --repo param");
+    return true;
+  }
+}
+
 function startCommentsSync() {
-  log.info('comments sync started');
+  log.info('Comments sync started');
 
   let params = {
-    owner: "grafana",
-    repo: "grafana",
+    owner: program.owner,
+    repo: program.repo,
     sort: 'updated',
     direction: "asc",
     per_page: 100,
@@ -153,14 +183,26 @@ function startCommentsSync() {
 program
   .version('0.0.1')
   .option('--sinceDays <sinceDays>', 'Date range back in time')
+  .option('--owner <owner>', 'github user or org')
+  .option('--repo <repo>', 'github repo name')
+  .option('--interval <interval>', 'duration to sleep before next sync')
   .command('issues')
   .action(function () {
+    if (missingRequiredOptions()) {
+      program.help();
+      return;
+    }
     queue.add(startIssueSync);
   });
 
 program
   .command('comments')
   .action(function() {
+    if (missingRequiredOptions()) {
+      program.help();
+      return;
+    }
+
     queue.add(startCommentsSync);
   });
 
