@@ -2,12 +2,8 @@ var _ = require('lodash');
 var db = require('./db');
 var bunyan = require('bunyan');
 var log = bunyan.createLogger({name: 'RepoSync'});
-var moment = require('moment');
-var env = require('node-env-file');
+var config = require('./config.json');
 var GitHubApi = require("github");
-
-// load env
-env(__dirname + '/.env');
 
 var github = new GitHubApi({
   // optional
@@ -24,10 +20,12 @@ var github = new GitHubApi({
   timeout: 5000
 });
 
+log.info("github_token", config.github_token);
+
 // user token
 github.authenticate({
   type: "token",
-  token: process.env.GITHUB_TOKEN,
+  token: config.github_token,
 });
 
 class RepoSync {

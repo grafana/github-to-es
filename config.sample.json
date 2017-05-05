@@ -1,5 +1,9 @@
 {
   "github_token": "mytoken",
+  "elasticsearch": {
+    "host": "localhost",
+    "port": 9200
+  },
   "repos": [
     {
       "repo": "grafana/grafana-docker"
