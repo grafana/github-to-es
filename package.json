@@ -19,5 +19,11 @@
     "moment": "^2.18.1",
     "node-env-file": "^0.1.8",
     "promise-queue": "^2.2.3"
+  },
+  "scripts": {
+    "test": "./node_modules/mocha/bin/mocha"
+  },
+  "devDependencies": {
+    "mocha": "^3.3.0"
   }
 }

@@ -18,6 +18,7 @@ function createIndex() {
           "properties": {
             "title":            { "type": "text"  },
             "state":            { "type": "keyword"  },
+            "repo":             { "type": "keyword"  },
             "labels":           { "type": "keyword"  },
             "number":           { "type": "keyword"  },
             "comments":         { "type": "long"  },
@@ -33,6 +34,7 @@ function createIndex() {
         "comment": {
           "properties": {
             "issue":           { "type": "keyword"  },
+            "repo":            { "type": "keyword"  },
             "user_login":      { "type": "keyword"  },
             "created_at":      { "type": "date"     },
           }
@@ -69,7 +71,7 @@ function saveIssue(issue) {
     id: issue.id,
     body: issue,
   }).then(res => {
-    log.info('Saved issue', {number: issue.number});
+    log.info('Saved issue', {number: issue.number, repo: issue.repo});
   }).catch(handleEsError);
 }
 
@@ -80,7 +82,7 @@ function saveComment(comment) {
     id: comment.id,
     body: comment,
   }).then(res => {
-    log.info('Saved comment', {created_at: comment.created_at, by: comment.user_login});
+    log.info('Saved comment', {created_at: comment.created_at, by: comment.user_login, repo: comment.repo});
   }).catch(handleEsError);
 }
 
