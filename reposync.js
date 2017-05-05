@@ -4,6 +4,7 @@ var bunyan = require('bunyan');
 var log = bunyan.createLogger({name: 'RepoSync'});
 var config = require('./config.json');
 var GitHubApi = require("github");
+var moment = require('moment');
 
 var github = new GitHubApi({
   // optional
@@ -42,8 +43,13 @@ class RepoSync {
   start() {
     log.info('Staring repo sync instance', {repo: this.options.repo});
 
-    this.queue.add(() => this.startIssueSync());
-    this.queue.add(() => this.startCommentsSync());
+    if (this.options.issues) {
+      this.queue.add(() => this.startIssueSync());
+    }
+
+    if (this.options.comments) {
+      this.queue.add(() => this.startCommentsSync());
+    }
   }
 
   startIssueSync() {
@@ -55,9 +61,9 @@ class RepoSync {
       per_page: 100,
     };
 
-    // if (this.options.sinceDays) {
-    //   params.since = moment().subtract(parseInt(this.options.sinceDays), 'days').utc().format();
-    // }
+    if (this.options.sinceDays) {
+      params.since = moment().subtract(parseInt(this.options.sinceDays), 'days').utc().format();
+    }
 
     return github.issues.getForRepo(params).then(this.issueListHandler.bind(this));
   }
@@ -73,9 +79,9 @@ class RepoSync {
       per_page: 100,
     };
 
-    // if (program.sinceDays) {
-    //   params.since = moment().subtract(parseInt(program.sinceDays), 'days').utc().format();
-    // }
+    if (this.options.sinceDays) {
+      params.since = moment().subtract(parseInt(this.options.sinceDays), 'days').utc().format();
+    }
 
     return github.issues.getCommentsForRepo(params).then(this.commentsListHandler.bind(this));
   }

@@ -6,10 +6,16 @@
   },
   "repos": [
     {
-      "repo": "grafana/grafana-docker"
+      "repo": "grafana/grafana-docker",
+      "comments": true,
+      "issues": false,
+      "sinceDays": 3000
     },
     {
-      "repo": "grafana/piechart-panel"
+      "repo": "grafana/piechart-panel",
+      "comments": true,
+      "issues": true,
+      "sinceDays": 3000
     }
   ]
 }
