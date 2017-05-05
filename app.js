@@ -1,6 +1,7 @@
 var Queue = require('promise-queue');
 var program = require('commander');
 var RepoSync = require('./reposync');
+var db = require('./db');
 
 // set promise
 Queue.configure(require('bluebird'));
