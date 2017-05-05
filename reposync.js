@@ -18,7 +18,7 @@ var github = new GitHubApi({
   },
   Promise: require('bluebird'),
   followRedirects: false, // default: true; there's currently an issue with non-get redirects, so allow ability to disable follow-redirects
-  timeout: 5000
+  timeout: 50000
 });
 
 log.info("github_token", config.github_token);
@@ -58,6 +58,7 @@ class RepoSync {
       repo: this.repo,
       direction: "asc",
       state: 'all',
+      page: this.options.page || 0,
       per_page: 100,
     };
 
@@ -76,6 +77,7 @@ class RepoSync {
       repo: this.repo,
       sort: 'updated',
       direction: "asc",
+      page: this.options.page || 0,
       per_page: 100,
     };
 
@@ -114,6 +116,8 @@ class RepoSync {
 
     if (github.hasNextPage(res)) {
       this.nextCommentsPage(res);
+    } else {
+      log.info("Got last comments page", res.meta.link);
     }
   }
 
@@ -152,6 +156,8 @@ class RepoSync {
 
     if (github.hasNextPage(res)) {
       this.nextIssuePage(res);
+    } else {
+      log.info("Got last issues page", res.meta.link);
     }
   }
 
