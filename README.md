@@ -58,6 +58,10 @@ node app.js reset | bunyan
 node app.js start | bunyan
 ```
 
+## Add Elasticsearch Data source in Grafana
+
+When you add the data source specify `github` as index name and `created_at` in the Timestamp field. 
+
 ### Grafana Dashboards
 
 - [GitHub Repo Issues](http://play.grafana.org/dashboard/db/github-repo-trends-issues).
