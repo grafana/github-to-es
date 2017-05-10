@@ -8,14 +8,14 @@
     {
       "repo": "grafana/grafana-docker",
       "comments": true,
-      "issues": false,
-      "sinceDays": 3000
+      "issues": true,
+      "sinceDays": 2
     },
     {
       "repo": "grafana/piechart-panel",
       "comments": true,
       "issues": true,
-      "sinceDays": 3000
+      "sinceDays": 2
     }
   ]
 }
