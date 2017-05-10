@@ -64,6 +64,14 @@ node app.js start | bunyan
 - [GitHub Repo Comments](http://play.grafana.org/dashboard/db/github-repo-trends-comments).
 
 
+# Limitations & Possible improvements
+
+Currently GitHub API limits the number of pages you can fetch to 400. So there is a limit for the initial complete
+import of issues & comments to 40000 issues and 40000 comments. 
+
+It would be nice to get stars & other repo stats as well.
+
+
 
 
 
