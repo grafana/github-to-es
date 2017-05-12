@@ -2,12 +2,12 @@
 
 This node.js app will crawl the GitHub issues and comments API to then save them in Elasticsearch. 
 
-![](https://github.com/torkelo/github-to-es/blob/master/img/issue_trends.png)
+![](https://github.com/grafana/github-to-es/blob/master/img/issue_trends.png)
 
 ## Install
 
 ```
-git clone https://github.com/torkelo/github-to-es.git
+git clone https://github.com/grafana/github-to-es.git
 cd github-to-es
 npm install
 ```
@@ -57,6 +57,10 @@ node app.js reset | bunyan
 ```
 node app.js start | bunyan
 ```
+
+## Add Elasticsearch Data source in Grafana
+
+When you add the data source specify `github` as index name and `created_at` in the Timestamp field. 
 
 ### Grafana Dashboards
 
