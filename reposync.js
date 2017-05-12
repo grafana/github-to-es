@@ -181,7 +181,20 @@ class RepoSync {
       reactions_plus1: gi.reactions['+1'],
       reactions_minus1: gi.reactions['-1'],
       reactions_heart: gi.reactions.heart,
+      created_iso_week_day: moment(gi.created_at).isoWeekday(),
     };
+
+    // calculate time opnen
+    if (gi.closed_at) {
+      var span = moment.duration(moment(gi.closed_at).diff(moment(gi.created_at)));
+      issue.minutes_open = span.asMinutes();
+    }
+
+    if (gi.closed_by) {
+      issue.closed_by = gi.closed_by.login;
+    }
+
+
     return issue;
   }
 }

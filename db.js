@@ -26,19 +26,23 @@ function createIndex() {
             "comments":         { "type": "long"  },
             "assignee":         { "type": "keyword"  },
             "user_login":       { "type": "keyword"  },
+            "closed_by":        { "type": "keyword"  },
             "milestone":        { "type": "keyword"  },
             "created_at":       { "type": "date"  },
             "closed_at":        { "type": "date"  },
             "updated_at":       { "type": "date"  },
-            "is_pull_request":  { "type": "boolean"  },
+            "is_pull_request":      { "type": "boolean"  },
+            "minutes_open":         { "type": "long"  },
+            "created_iso_week_day": { "type": "integer"  },
           }
         },
         "comment": {
           "properties": {
-            "issue":           { "type": "keyword"  },
-            "repo":            { "type": "keyword"  },
-            "user_login":      { "type": "keyword"  },
-            "created_at":      { "type": "date"     },
+            "issue":                { "type": "keyword"  },
+            "repo":                 { "type": "keyword"  },
+            "user_login":           { "type": "keyword"  },
+            "created_at":           { "type": "date"     },
+            "created_iso_week_day": { "type": "integer"  },
           }
         }
       }
